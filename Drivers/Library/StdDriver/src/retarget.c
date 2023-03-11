@@ -58,14 +58,14 @@ enum { r0, r1, r2, r3, r12, lr, pc, psr};
  */
 static void stackDump(uint32_t stack[])
 {
-    printf("r0  = 0x%x\n", stack[r0]);
-    printf("r1  = 0x%x\n", stack[r1]);
-    printf("r2  = 0x%x\n", stack[r2]);
-    printf("r3  = 0x%x\n", stack[r3]);
-    printf("r12 = 0x%x\n", stack[r12]);
-    printf("lr  = 0x%x\n", stack[lr]);
-    printf("pc  = 0x%x\n", stack[pc]);
-    printf("psr = 0x%x\n", stack[psr]);
+    printf("r0  = 0x%lx\n", stack[r0]);
+    printf("r1  = 0x%lx\n", stack[r1]);
+    printf("r2  = 0x%lx\n", stack[r2]);
+    printf("r3  = 0x%lx\n", stack[r3]);
+    printf("r12 = 0x%lx\n", stack[r12]);
+    printf("lr  = 0x%lx\n", stack[lr]);
+    printf("pc  = 0x%lx\n", stack[pc]);
+    printf("psr = 0x%lx\n", stack[psr]);
 }
 
 /**
