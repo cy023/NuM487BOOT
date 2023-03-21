@@ -12,7 +12,7 @@
 TARGET = main
 
 # Upload Info.
-COMPORT    ?= /dev/ttyACM0
+COMPORT    ?=
 UPLOAD_HEX ?= main
 
 ## MCU Info.
@@ -39,6 +39,7 @@ C_INCLUDES  = -I.
 C_INCLUDES += -ICore
 C_INCLUDES += -IDevice_Startup
 C_INCLUDES += -IDrivers/CMSIS
+C_INCLUDES += -IDrivers/boot
 C_INCLUDES += -IDrivers/Library/Device/Nuvoton_M480/Include
 C_INCLUDES += -IDrivers/Library/StdDriver/inc
 
@@ -48,8 +49,11 @@ C_SOURCES += $(wildcard Drivers/Library/Device/Nuvoton_M480/Source/*.c)
 # C_SOURCES += $(wildcard Drivers/Library/StdDriver/src/*.c)
 C_SOURCES += Drivers/Library/StdDriver/src/sys.c
 C_SOURCES += Drivers/Library/StdDriver/src/uart.c
+C_SOURCES += Drivers/Library/StdDriver/src/gpio.c
 C_SOURCES += Drivers/Library/StdDriver/src/retarget.c
 C_SOURCES += Drivers/Library/StdDriver/src/clk.c
+C_SOURCES += Drivers/Library/StdDriver/src/fmc.c
+C_SOURCES += $(wildcard Drivers/boot/*.c)
 
 ASM_SOURCES += $(wildcard Device_Startup/*.S)
 
@@ -112,7 +116,7 @@ CFLAGS += $(C_INCLUDES)
 
 ## Assembler Options
 ASMFLAGS  = $(MCUFLAGS)
-ASMFLAGS += -x assembler-with-cpp -Wa,-g$(DEBUG)
+ASMFLAGS += -x assembler-with-cpp -Wa,$(DEBUG)
 
 ## Link Options
 LDFLAGS  = $(MCUFLAGS)
@@ -145,7 +149,7 @@ test: $(OBJECTS) $(TESTOBJ) $(TEST_TARGET)
 
 macro: $(OBJECTS:.o=.i) $(APPOBJS:.o=.i) $(TESTOBJ:.o=.i)
 
-lib: $(BUILD_DIR)/libc4mrtos.a
+dump: $(BUILD_DIR)/$(TARGET).lss $(TESTOBJ:.o=.lss) $(BUILD_DIR)/$(TARGET).sym $(TESTOBJ:.o=.sym)
 
 size: $(TARGET_FILE)
 	$(SIZE) $(TARGET_FILE)
@@ -157,14 +161,14 @@ clean:
 # 	NuLink -e all
 # 	NuLink 0x180006EE -w APROM build/$(UPLOAD_HEX).hex
 
-# terminal:
-# 	putty -serial $(COMPORT) -sercfg 38400,1,N,N
+terminal:
+	putty -serial $(COMPORT) -sercfg 38400,1,N,N
 
 systeminfo:
 	@uname -a
 	@$(CC) --version
 
-.PHONY: all test macro lib size systeminfo clean upload terminal
+.PHONY: all test macro dump size systeminfo clean upload terminal
 
 ################################################################################
 # Build The Project
