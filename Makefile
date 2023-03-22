@@ -37,6 +37,7 @@ LIBDIRS =
 ## Include Path
 C_INCLUDES  = -I.
 C_INCLUDES += -ICore
+C_INCLUDES += -ICore/boot
 C_INCLUDES += -IDevice_Startup
 C_INCLUDES += -IDrivers/CMSIS
 C_INCLUDES += -IDrivers/boot
@@ -44,6 +45,7 @@ C_INCLUDES += -IDrivers/Library/Device/Nuvoton_M480/Include
 C_INCLUDES += -IDrivers/Library/StdDriver/inc
 
 ## Source Path
+C_SOURCES += $(wildcard Core/boot/*.c)
 C_SOURCES += $(wildcard Device_Startup/*.c)
 C_SOURCES += $(wildcard Drivers/Library/Device/Nuvoton_M480/Source/*.c)
 # C_SOURCES += $(wildcard Drivers/Library/StdDriver/src/*.c)
