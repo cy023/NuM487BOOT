@@ -130,6 +130,6 @@ void bl_command_process(void);
  * @brief Boot the program. Load the application image from /boot partition
  *
  */
-// void boot_from_fs(void); TODO:
+uint8_t boot_from_fs(void);
 
 #endif  /* BOOTPROTOCOL_H */

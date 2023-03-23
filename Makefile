@@ -41,8 +41,10 @@ C_INCLUDES += -ICore/boot
 C_INCLUDES += -IDevice_Startup
 C_INCLUDES += -IDrivers/CMSIS
 C_INCLUDES += -IDrivers/boot
+C_INCLUDES += -IDrivers/w25q128jv
 C_INCLUDES += -IDrivers/Library/Device/Nuvoton_M480/Include
 C_INCLUDES += -IDrivers/Library/StdDriver/inc
+C_INCLUDES += -IMiddleware/LittleFS
 
 ## Source Path
 C_SOURCES += $(wildcard Core/boot/*.c)
@@ -55,7 +57,10 @@ C_SOURCES += Drivers/Library/StdDriver/src/gpio.c
 C_SOURCES += Drivers/Library/StdDriver/src/retarget.c
 C_SOURCES += Drivers/Library/StdDriver/src/clk.c
 C_SOURCES += Drivers/Library/StdDriver/src/fmc.c
+C_SOURCES += Drivers/Library/StdDriver/src/spi.c
 C_SOURCES += $(wildcard Drivers/boot/*.c)
+C_SOURCES += $(wildcard Drivers/w25q128jv/*.c)
+C_SOURCES += $(wildcard Middleware/LittleFS/*.c)
 
 ASM_SOURCES += $(wildcard Device_Startup/*.S)
 

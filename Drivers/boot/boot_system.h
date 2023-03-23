@@ -12,6 +12,7 @@
 #include <stdint.h>
 
 #define PLL_CLOCK           192000000
+#define SPI_FLASH_PORT      SPI2
 
 /*******************************************************************************
  * Peripheral Driver Enable
@@ -29,7 +30,7 @@
 #endif
 
 #ifndef BOOT_SPI_DRIVER_ENABLE
-#define BOOT_SPI_DRIVER_ENABLE    0
+#define BOOT_SPI_DRIVER_ENABLE    1
 #endif
 
 /*******************************************************************************
@@ -91,5 +92,23 @@ void bootLED_on(void);
  * @brief Trun off the Boot LED.
  */
 void bootLED_off(void);
+
+/**
+ * @brief Enable APROM update.
+ *
+ *  - Unlock register lock protect
+ *  - Enable FMC ISP function
+ *  - Enable APROM update
+ */
+void APROM_update_enable(void);
+
+/**
+ * @brief Disable APROM update.
+ *
+ *  - Disable APROM update
+ *  - Disable FMC ISP function
+ *  - Lock protected registers
+ */
+void APROM_update_disable(void);
 
 #endif  /* BOOT_SYSTEM_H */

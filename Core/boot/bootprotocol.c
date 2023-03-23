@@ -11,8 +11,8 @@
 #include "flash.h"
 #include "device.h"
 
-// #include "lfs.h"
-// #include "lfs_port.h"
+#include "lfs.h"
+#include "lfs_port.h"
 
 #define BUFFERSIZE  516
 static uint8_t bl_buffer[BUFFERSIZE] = {0};
@@ -136,9 +136,9 @@ void bl_command_process(void)
                 send_ACK(&pac);
                 return;
             }
-            case CMD_PROG_EXT_FLASH_BOOT: { // TODO:
-                // boot_from_fs();
-                // send_ACK(&pac);
+            case CMD_PROG_EXT_FLASH_BOOT: {
+                boot_from_fs();
+                send_ACK(&pac);
                 break;
             }
             case CMD_FLASH_SET_PGSZ: {
@@ -193,37 +193,37 @@ void bl_command_process(void)
             /******************************************************************/
 
             case CMD_EXT_FLASH_FOPEN: {
-                // // mount the filesystem
-                // int err = lfs_mount(&lfs_w25q128jv, &cfg);
+                // mount the filesystem
+                int err = lfs_mount(&lfs_w25q128jv, &cfg);
 
-                // // reformat if we can't mount the filesystem, this should only happen on the first boot
-                // if (err) {
-                //     lfs_format(&lfs_w25q128jv, &cfg);
-                //     lfs_mount(&lfs_w25q128jv, &cfg);
-                // }
+                // reformat if we can't mount the filesystem, this should only happen on the first boot
+                if (err) {
+                    lfs_format(&lfs_w25q128jv, &cfg);
+                    lfs_mount(&lfs_w25q128jv, &cfg);
+                }
 
-                // lfs_remove(&lfs_w25q128jv, "/boot");
+                lfs_remove(&lfs_w25q128jv, "/boot");
 
-                // // Open boot partition
-                // lfs_file_open(&lfs_w25q128jv, &lfs_file_w25q128jv, "/boot", LFS_O_WRONLY | LFS_O_APPEND | LFS_O_CREAT);
+                // Open boot partition
+                lfs_file_open(&lfs_w25q128jv, &lfs_file_w25q128jv, "/boot", LFS_O_WRONLY | LFS_O_APPEND | LFS_O_CREAT);
 
                 send_ACK(&pac);
                 break;
             }
             case CMD_EXT_FLASH_FCLOSE: {
-                // // Write boot image done!
-                // lfs_file_close(&lfs_w25q128jv, &lfs_file_w25q128jv);
+                // Write boot image done!
+                lfs_file_close(&lfs_w25q128jv, &lfs_file_w25q128jv);
 
-                // // release any resources we were using
-                // lfs_unmount(&lfs_w25q128jv);
+                // release any resources we were using
+                lfs_unmount(&lfs_w25q128jv);
 
                 send_ACK(&pac);
                 break;
             }
             case CMD_EXT_FLASH_WRITE: {
-                // lfs_file_rewind(&lfs_w25q128jv, &lfs_file_w25q128jv);
-                // lfs_file_write(&lfs_w25q128jv, &lfs_file_w25q128jv, (uint8_t *)pac.data, BUFFERSIZE);
-                // send_ACK(&pac);
+                lfs_file_rewind(&lfs_w25q128jv, &lfs_file_w25q128jv);
+                lfs_file_write(&lfs_w25q128jv, &lfs_file_w25q128jv, (uint8_t *)pac.data, BUFFERSIZE);
+                send_ACK(&pac);
                 break;
             }
             case CMD_EXT_FLASH_READ:            {break;}
@@ -249,39 +249,46 @@ void bl_command_process(void)
     }
 }
 
-// void boot_from_fs(void)
-// {
-//     bootLED_on();
+uint8_t boot_from_fs(void)
+{
+    bootLED_on();
+    APROM_update_enable();
 
-//     flash_earse_app_all();
-//     memset(bl_buffer, 0, BUFFERSIZE);
+    if (flash_earse_app_all())
+        return FAILED;
+    memset(bl_buffer, 0, BUFFERSIZE);
 
-//     int err = lfs_mount(&lfs_w25q128jv, &cfg);
+    int err = lfs_mount(&lfs_w25q128jv, &cfg);
 
-//     // reformat if we can't mount the filesystem, this should only happen on the first boot
-//     if (err) {
-//         lfs_format(&lfs_w25q128jv, &cfg);
-//         lfs_mount(&lfs_w25q128jv, &cfg);
-//     }
+    // reformat if we can't mount the filesystem, this should only happen on the first boot
+    if (err) {
+        lfs_format(&lfs_w25q128jv, &cfg);
+        lfs_mount(&lfs_w25q128jv, &cfg);
+    }
 
-//     lfs_file_open(&lfs_w25q128jv, &lfs_file_w25q128jv, "/boot", LFS_O_RDONLY | LFS_O_CREAT);
+    lfs_file_open(&lfs_w25q128jv, &lfs_file_w25q128jv, "/boot", LFS_O_RDONLY | LFS_O_CREAT);
 
-//     lfs_soff_t fsize = lfs_file_size(&lfs_w25q128jv, &lfs_file_w25q128jv);
-//     // printf("/boot size is %ld\n", fsize);
+    lfs_soff_t fsize = lfs_file_size(&lfs_w25q128jv, &lfs_file_w25q128jv);
+    // printf("/boot size is %ld\n", fsize);
 
-//     while (fsize >= BUFFERSIZE) {
-//         lfs_file_read(&lfs_w25q128jv, &lfs_file_w25q128jv, bl_buffer, BUFFERSIZE);
-//         flash_write_app_page(*(uint32_t *)bl_buffer, (uint8_t *)(bl_buffer + 4));
-//         fsize -= BUFFERSIZE;
-//     }
-//     if (fsize) {
-//         memset(bl_buffer, 0, BUFFERSIZE);
-//         lfs_file_read(&lfs_w25q128jv, &lfs_file_w25q128jv, bl_buffer, fsize);
-//         flash_write_app_page(*(uint32_t *)bl_buffer, (uint8_t *)(bl_buffer + 4));
-//     }
+    while (fsize >= BUFFERSIZE) {
+        lfs_file_read(&lfs_w25q128jv, &lfs_file_w25q128jv, bl_buffer, BUFFERSIZE);
+        if (flash_write_app_page(*(uint32_t *)bl_buffer, (uint8_t *)(bl_buffer + 4)))
+            return FAILED;
+        fsize -= BUFFERSIZE;
+    }
+    if (fsize) {
+        memset(bl_buffer, 0, BUFFERSIZE);
+        lfs_file_read(&lfs_w25q128jv, &lfs_file_w25q128jv, bl_buffer, fsize);
+        if (flash_write_app_page(*(uint32_t *)bl_buffer, (uint8_t *)(bl_buffer + 4)))
+            return FAILED;
+    }
 
-//     lfs_file_close(&lfs_w25q128jv, &lfs_file_w25q128jv);
-//     lfs_unmount(&lfs_w25q128jv);
+    lfs_file_close(&lfs_w25q128jv, &lfs_file_w25q128jv);
+    lfs_unmount(&lfs_w25q128jv);
 
-//     bootLED_off();
-// }
+    APROM_update_enable();
+    bootLED_off();
+
+    return SUCCESSED;
+}

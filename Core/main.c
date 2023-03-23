@@ -29,30 +29,33 @@ void shell_start(void)
 
 uint8_t select_boot_partition(void)
 {
-    // char select;
+    char select;
     shell_start();
     printf("Boot partition select ...\n");
     printf("(1) Primary Slot (Boot from internal flash)\n");
     printf("(2) Secondary Slot (Boot from external flash)\n");
-    printf("> (1) ...\n");
-    // select = com_channel_getc();
+    printf("> \n");
+    select = com_channel_getc();
 
-    // printf("Waiting for boot up ...\n");
-    // switch (select)
-    // {
-    //     case '1': {
-    //         break;
-    //     }
-    //     case '2': {
-    //         boot_from_fs();
-    //         printf("Boot from secondary slot successed!\n");
-    //         break;
-    //     }
-    //     default: {
-    //         printf("Boot Failed. Please Reset the computer.\n");
-    //         return FAILED;
-    //     }
-    // }
+    printf("Waiting for boot up ...\n");
+    switch (select)
+    {
+        case '1': {
+            break;
+        }
+        case '2': {
+            if (boot_from_fs()) {
+                printf("Boot Failed. Please Reset the computer.\n");
+                return FAILED;
+            }
+            printf("Boot from secondary slot successed!\n");
+            break;
+        }
+        default: {
+            printf("Boot Failed. Please Reset the computer.\n");
+            return FAILED;
+        }
+    }
     return SUCCESSED;
 }
 
@@ -66,15 +69,11 @@ int main(void)
         system_jump_to_app();
     }
     while (1) {
-        SYS_UnlockReg();                   /* Unlock register lock protect */
-        FMC_Open();                        /* Enable FMC ISP function */
-        FMC_ENABLE_AP_UPDATE();            /* Enable APROM update. */
+        APROM_update_enable();
 
         establish_connection();
         bl_command_process();
 
-        FMC_DISABLE_AP_UPDATE();           /* Disable APROM update. */
-        FMC_Close();                       /* Disable FMC ISP function */
-        SYS_LockReg();                     /* Lock protected registers */
+        APROM_update_enable();
     }
 }

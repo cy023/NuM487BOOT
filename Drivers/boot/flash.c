@@ -12,17 +12,17 @@
 #include "commuch.h"
 #include "device.h"
 
-// /*******************************************************************************
-//  * Macro
-//  ******************************************************************************/
+/*******************************************************************************
+ * Macro
+ ******************************************************************************/
 #define BL_FLASH_PACSIZE          (512U)
 
 #define FAILED                          1
 #define SUCCESSED                       0
 
-// /*******************************************************************************
-//  * Public function
-//  ******************************************************************************/
+/*******************************************************************************
+ * Public function
+ ******************************************************************************/
 uint8_t flash_set_pgsz(uint16_t size)
 {
     if (size != 512) // TODO: only support 512 bytes now
@@ -75,19 +75,19 @@ uint8_t flash_verify_app_page(const uint32_t src, uint8_t *buf)
     return SUCCESSED;
 }
 
-uint8_t flash_earse_sector(uint8_t sector_num)
-{
-    // TODO:
-    // uint32_t addr = sector_num * NVMCTRL_FLASH_BLOCKSIZE;
-    // nvmctrl_erase_block(addr);
-    // return NVMCTRL_PROGE;
-    return 0;
-}
+// uint8_t flash_earse_sector(uint8_t sector_num)
+// {
+//     // TODO:
+//     // uint32_t addr = sector_num * NVMCTRL_FLASH_BLOCKSIZE;
+//     // nvmctrl_erase_block(addr);
+//     // return NVMCTRL_PROGE;
+//     return 0;
+// }
 
 uint8_t flash_earse_app_all(void)
 {
     uint8_t res = 0;
-    for (uint32_t addr = USER_APP_START; addr < USER_APP_END; addr += FMC_FLASH_PAGE_SIZE << 2) 
+    for (uint32_t addr = USER_APP_START; addr < USER_APP_END; addr += (FMC_FLASH_PAGE_SIZE << 2))
         res |= FMC_Erase_Block(addr); // erase 4 pages
     // TODO: res |= FMC_Erase(addr);
     return res;
