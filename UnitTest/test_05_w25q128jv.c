@@ -2,15 +2,15 @@
  * @file test_05_w25q128jv.c
  * @author cy023
  * @date 2023.03.20
- * @brief 
- * 
+ * @brief
+ *
  */
 
 #include <stdio.h>
 #include "NuMicro.h"
 #include "boot_system.h"
-#include "flash.h"
 #include "device.h"
+#include "flash.h"
 #include "w25q128jv.h"
 
 uint8_t buffer[256] = {0};
@@ -34,7 +34,7 @@ int main()
     printf("[test02]: Flash W25Q128JV ...\n\n");
 
     w25q128jv_init();
-    
+
     for (int i = 0; i < 256; i++) {
         buffer[i] = 0;
     }

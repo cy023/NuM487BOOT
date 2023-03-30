@@ -5,8 +5,8 @@
  * @brief
  */
 
-#include "NuMicro.h"
 #include "commuch.h"
+#include "NuMicro.h"
 
 void com_channel_putc(uint8_t data)
 {

@@ -4,7 +4,8 @@
  * @date 2023.02.15
  * @brief Flash Driver - w25q128jv
  *
- * Reference: https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=zh_TW&partNo=W25Q128JV
+ * Reference:
+ * https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=zh_TW&partNo=W25Q128JV
  */
 
 #ifndef W25Q128JV_H
@@ -42,13 +43,31 @@ void w25q128jv_erase_block(uint32_t block_num);
 
 void w25q128jv_read_byte(uint8_t *pbuf, uint32_t addr);
 void w25q128jv_read_bytes(uint8_t *pbuf, uint32_t addr, uint32_t bytes);
-void w25q128jv_read_page(uint8_t *pbuf, uint32_t page_num, uint32_t offset, uint32_t bytes);
-void w25q128jv_read_sector(uint8_t *pbuf, uint32_t sector_num, uint32_t offset, uint32_t bytes);
-void w25q128jv_read_block(uint8_t *pbuf, uint32_t block_num, uint32_t offset, uint32_t bytes);
+void w25q128jv_read_page(uint8_t *pbuf,
+                         uint32_t page_num,
+                         uint32_t offset,
+                         uint32_t bytes);
+void w25q128jv_read_sector(uint8_t *pbuf,
+                           uint32_t sector_num,
+                           uint32_t offset,
+                           uint32_t bytes);
+void w25q128jv_read_block(uint8_t *pbuf,
+                          uint32_t block_num,
+                          uint32_t offset,
+                          uint32_t bytes);
 
 void w25q128jv_write_byte(uint8_t pbuf, uint32_t addr);
-void w25q128jv_write_page(uint8_t *pbuf, uint32_t page_num, uint32_t offset, uint32_t bytes);
-void w25q128jv_write_sector(uint8_t *pbuf, uint32_t sector_num, uint32_t offset, uint32_t bytes);
-void w25q128jv_write_block(uint8_t *pbuf, uint32_t block_num, uint32_t offset, uint32_t bytes);
+void w25q128jv_write_page(uint8_t *pbuf,
+                          uint32_t page_num,
+                          uint32_t offset,
+                          uint32_t bytes);
+void w25q128jv_write_sector(uint8_t *pbuf,
+                            uint32_t sector_num,
+                            uint32_t offset,
+                            uint32_t bytes);
+void w25q128jv_write_block(uint8_t *pbuf,
+                           uint32_t block_num,
+                           uint32_t offset,
+                           uint32_t bytes);
 
 #endif /* W25Q128JV_H */

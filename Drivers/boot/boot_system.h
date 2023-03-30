@@ -11,26 +11,26 @@
 
 #include <stdint.h>
 
-#define PLL_CLOCK           192000000
-#define SPI_FLASH_PORT      SPI2
+#define PLL_CLOCK      192000000UL
+#define SPI_FLASH_PORT SPI2
 
 /*******************************************************************************
  * Peripheral Driver Enable
  ******************************************************************************/
 #ifndef BOOT_GPIO_DRIVER_ENABLE
-#define BOOT_GPIO_DRIVER_ENABLE   1
+#define BOOT_GPIO_DRIVER_ENABLE 1
 #endif
 
 #ifndef BOOT_CLOCK_DRIVER_ENABLE
-#define BOOT_CLOCK_DRIVER_ENABLE  1
+#define BOOT_CLOCK_DRIVER_ENABLE 1
 #endif
 
 #ifndef BOOT_UART_DRIVER_ENABLE
-#define BOOT_UART_DRIVER_ENABLE   1
+#define BOOT_UART_DRIVER_ENABLE 1
 #endif
 
 #ifndef BOOT_SPI_DRIVER_ENABLE
-#define BOOT_SPI_DRIVER_ENABLE    1
+#define BOOT_SPI_DRIVER_ENABLE 1
 #endif
 
 /*******************************************************************************
@@ -38,7 +38,7 @@
  ******************************************************************************/
 /**
  * @brief System initialization.
- * 
+ *
  *  - system_gpio_init()
  *  - system_clock_init()
  *  - system_uart_init()
@@ -48,7 +48,7 @@ void system_init(void);
 
 /**
  * @brief System deinitialization.
- * 
+ *
  *  - system_gpio_deinit()
  *  - system_clock_deinit()
  *  - system_uart_deinit()
@@ -58,7 +58,7 @@ void system_deinit(void);
 
 /**
  * @brief Jump to APP section from bootloader section.
- * 
+ *
  *  - system_deinit()
  *  - Reset Core register
  *  - Change the vector table offset to application vector table
@@ -111,4 +111,4 @@ void APROM_update_enable(void);
  */
 void APROM_update_disable(void);
 
-#endif  /* BOOT_SYSTEM_H */
+#endif /* BOOT_SYSTEM_H */

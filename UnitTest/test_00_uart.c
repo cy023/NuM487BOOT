@@ -2,7 +2,7 @@
  * @file test_00_uart.c
  * @author cy023
  * @date 2023.03.20
- * @brief 
+ * @brief
  */
 
 #include <stdio.h>

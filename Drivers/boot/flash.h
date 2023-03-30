@@ -3,7 +3,7 @@
  * @author cy023
  * @date 2023.03.20
  * @brief
- * 
+ *
  * The API only supports for address in User App Section.
  */
 
@@ -51,7 +51,7 @@ uint8_t flash_read_app_page(const uint32_t src, uint8_t *buf);
  * @brief Verify the flash page is the same as page buf.
  * @param page_addr byte address of the flash page to verify.
  * @param buf address of page buffer.
- * @return uint8_t 
+ * @return uint8_t
  *      0: the page is the same with buf.
  *      1: the page is different from buf.
  */

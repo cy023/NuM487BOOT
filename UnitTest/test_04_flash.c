@@ -2,9 +2,9 @@
  * @file test_04_flash.c
  * @author cy023
  * @date 2023.03.20
- * @brief 
- * 
- * NOTICE: If run this test code in .App section, 
+ * @brief
+ *
+ * NOTICE: If run this test code in .App section,
  *          the flash_earse_app_all() boundary should be modified.
  *         Otherwise, it will erase itself.
  */
@@ -13,10 +13,10 @@
 #include <string.h>
 #include "NuMicro.h"
 #include "boot_system.h"
-#include "flash.h"
 #include "device.h"
+#include "flash.h"
 
-#define BUFFSIZE    512
+#define BUFFSIZE 512
 uint8_t page_buffer[BUFFSIZE] = {0};
 
 void printPage(char *s)
@@ -36,9 +36,9 @@ int main()
 {
     system_init();
 
-    SYS_UnlockReg();                   /* Unlock register lock protect */
-    FMC_Open();                        /* Enable FMC ISP function */
-    FMC_ENABLE_AP_UPDATE();            /* Enable APROM update. */
+    SYS_UnlockReg();        /* Unlock register lock protect */
+    FMC_Open();             /* Enable FMC ISP function */
+    FMC_ENABLE_AP_UPDATE(); /* Enable APROM update. */
 
     printf("System Boot.\n");
     printf("[test04]: flash ...\n");
@@ -62,7 +62,7 @@ int main()
 
     for (int i = 0; i < BUFFSIZE; i++)
         page_buffer[i] = i;
-    
+
     printPage("Set page_buffer from 0 to 511");
     flash_write_app_page(0, page_buffer);
     memset(page_buffer, 0, BUFFSIZE);
@@ -75,7 +75,8 @@ int main()
 
     printf("verify_app_page: %d\n", flash_verify_app_page(0, page_buffer));
     page_buffer[100] = 0;
-    printf("verify_app_page after change one byte: %d\n", flash_verify_app_page(0, page_buffer));
+    printf("verify_app_page after change one byte: %d\n",
+           flash_verify_app_page(0, page_buffer));
 
     printf("\t===================== earase all ======================\n");
     printPage("Before Erase all");
@@ -85,10 +86,12 @@ int main()
     flash_read_app_page(0, page_buffer);
     printPage("Read after Erase all");
 
-    FMC_DISABLE_AP_UPDATE();           /* Disable APROM update. */
-    FMC_Close();                       /* Disable FMC ISP function */
-    SYS_LockReg();                     /* Lock protected registers */
+    FMC_DISABLE_AP_UPDATE(); /* Disable APROM update. */
+    FMC_Close();             /* Disable FMC ISP function */
+    SYS_LockReg();           /* Lock protected registers */
 
-    while (1) {;}
+    while (1) {
+        ;
+    }
     return 0;
 }

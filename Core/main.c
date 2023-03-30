@@ -7,11 +7,11 @@
 
 #include <stdio.h>
 #include "NuMicro.h"
-#include "device.h"
 #include "boot_system.h"
-#include "commuch.h"
-#include "flash.h"
 #include "bootprotocol.h"
+#include "commuch.h"
+#include "device.h"
+#include "flash.h"
 
 void shell_start(void)
 {
@@ -38,23 +38,22 @@ uint8_t select_boot_partition(void)
     select = com_channel_getc();
 
     printf("Waiting for boot up ...\n");
-    switch (select)
-    {
-        case '1': {
-            break;
-        }
-        case '2': {
-            if (boot_from_fs()) {
-                printf("Boot Failed. Please Reset the computer.\n");
-                return FAILED;
-            }
-            printf("Boot from secondary slot successed!\n");
-            break;
-        }
-        default: {
+    switch (select) {
+    case '1': {
+        break;
+    }
+    case '2': {
+        if (boot_from_fs()) {
             printf("Boot Failed. Please Reset the computer.\n");
             return FAILED;
         }
+        printf("Boot from secondary slot successed!\n");
+        break;
+    }
+    default: {
+        printf("Boot Failed. Please Reset the computer.\n");
+        return FAILED;
+    }
     }
     return SUCCESSED;
 }

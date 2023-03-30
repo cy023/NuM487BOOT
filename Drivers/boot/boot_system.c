@@ -5,9 +5,9 @@
  * @brief
  */
 
+#include "boot_system.h"
 #include "NuMicro.h"
 #include "device.h"
-#include "boot_system.h"
 
 /*******************************************************************************
  * Peripheral Driver - private function
@@ -39,13 +39,15 @@ static void system_clock_init(void)
     CLK_EnableModuleClock(SPI2_MODULE);
 
     /* Select UART clock source from HXT and UART module clock divider as 1 */
-    CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART0SEL_HXT, CLK_CLKDIV0_UART0(1));
+    CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART0SEL_HXT,
+                       CLK_CLKDIV0_UART0(1));
 
     /* Select PCLK1 as the clock source of SPI2 */
     CLK_SetModuleClock(SPI2_MODULE, CLK_CLKSEL2_SPI2SEL_PCLK1, MODULE_NoMsk);
 
     /* Update System Core Clock */
-    /* User can use SystemCoreClockUpdate() to calculate SystemCoreClock and CyclesPerUs automatically. */
+    /* User can use SystemCoreClockUpdate() to calculate SystemCoreClock and
+     * CyclesPerUs automatically. */
     SystemCoreClockUpdate();
 }
 
@@ -91,7 +93,8 @@ static void system_uart0_init(void)
 {
     /* Set GPB multi-function pins for UART0 RXD and TXD */
     SYS->GPB_MFPH &= ~(SYS_GPB_MFPH_PB12MFP_Msk | SYS_GPB_MFPH_PB13MFP_Msk);
-    SYS->GPB_MFPH |= (SYS_GPB_MFPH_PB12MFP_UART0_RXD | SYS_GPB_MFPH_PB13MFP_UART0_TXD);
+    SYS->GPB_MFPH |=
+        (SYS_GPB_MFPH_PB12MFP_UART0_RXD | SYS_GPB_MFPH_PB13MFP_UART0_TXD);
 
     /* Init UART to 38400-8n1 for print message */
     UART_Open(UART0, 38400);
@@ -117,8 +120,12 @@ static void system_spi_init(void)
 {
     /* Setup SPI2 multi-function pins */
     // TODO: Change Flash_CS from PG4 (MFP3) to PA9 (MFP4)
-    // SYS->GPA_MFPH |= SYS_GPA_MFPH_PA11MFP_SPI2_SS | SYS_GPA_MFPH_PA10MFP_SPI2_CLK | SYS_GPA_MFPH_PA8MFP_SPI2_MOSI | SYS_GPA_MFPH_PA9MFP_SPI2_MISO;
-    SYS->GPA_MFPH |= SYS_GPA_MFPH_PA11MFP_SPI2_SS | SYS_GPA_MFPH_PA10MFP_SPI2_CLK | SYS_GPA_MFPH_PA8MFP_SPI2_MOSI;
+    // SYS->GPA_MFPH |= SYS_GPA_MFPH_PA11MFP_SPI2_SS |
+    // SYS_GPA_MFPH_PA10MFP_SPI2_CLK | SYS_GPA_MFPH_PA8MFP_SPI2_MOSI |
+    // SYS_GPA_MFPH_PA9MFP_SPI2_MISO;
+    SYS->GPA_MFPH |= SYS_GPA_MFPH_PA11MFP_SPI2_SS |
+                     SYS_GPA_MFPH_PA10MFP_SPI2_CLK |
+                     SYS_GPA_MFPH_PA8MFP_SPI2_MOSI;
     SYS->GPG_MFPL |= SYS_GPG_MFPL_PG4MFP_SPI2_MISO;
 
     /* Enable SPI2 clock pin (PA10) schmitt trigger */
@@ -128,7 +135,8 @@ static void system_spi_init(void)
     GPIO_SetSlewCtl(PA, 0xF, GPIO_SLEWCTL_FAST);
     GPIO_SetSlewCtl(PG, 0xF, GPIO_SLEWCTL_FAST);
 
-    /* Configure SPI_FLASH_PORT as a master, MSB first, 8-bit transaction, SPI Mode-0 timing, clock is 20MHz */
+    /* Configure SPI_FLASH_PORT as a master, MSB first, 8-bit transaction, SPI
+     * Mode-0 timing, clock is 20MHz */
     SPI_Open(SPI_FLASH_PORT, SPI_MASTER, SPI_MODE_0, 8, 20000000);
 
     /* Disable auto SS function, control SS signal manually. */
@@ -201,10 +209,10 @@ void system_deinit(void)
 __attribute__((always_inline)) static inline void jump2app(void)
 {
     // Setting the stack pointer.
-    __set_MSP(*(uint32_t *)USER_APP_START);
+    __set_MSP(*(uint32_t *) USER_APP_START);
 
     // SP + 4: Reset Handler Offset.
-    __ASM volatile ("BLX %0" : : "r" (*(uint32_t *)(USER_APP_START + 4)));
+    __ASM volatile("BLX %0" : : "r"(*(uint32_t *) (USER_APP_START + 4)));
 }
 
 void system_jump_to_app(void)
@@ -238,8 +246,10 @@ void system_jump_to_app(void)
     NVIC->ICPR[7] = 0xFFFFFFFF;
 
     SysTick->CTRL = 0;
-    SCB->ICSR |= SCB_ICSR_PENDSTCLR_Msk; // Removes the pending status of the SysTick exception
-    SCB->SHCSR &= ~(SCB_SHCSR_USGFAULTENA_Msk | SCB_SHCSR_BUSFAULTENA_Msk | SCB_SHCSR_MEMFAULTENA_Msk);
+    SCB->ICSR |= SCB_ICSR_PENDSTCLR_Msk;  // Removes the pending status of the
+                                          // SysTick exception
+    SCB->SHCSR &= ~(SCB_SHCSR_USGFAULTENA_Msk | SCB_SHCSR_BUSFAULTENA_Msk |
+                    SCB_SHCSR_MEMFAULTENA_Msk);
 
     __DSB();
     __ISB();
@@ -265,7 +275,9 @@ void system_delay_ms(uint32_t ms)
     volatile uint32_t i;
     for (delay = ms; delay > 0; delay--) {
         // 1 ms loop with -O0 optimization.
-        for (i = 19200; i > 0; i--) {;}
+        for (i = 19200; i > 0; i--) {
+            ;
+        }
     }
 }
 
@@ -281,14 +293,14 @@ void bootLED_off(void)
 
 void APROM_update_enable(void)
 {
-    SYS_UnlockReg();                   /* Unlock register lock protect */
-    FMC_Open();                        /* Enable FMC ISP function */
-    FMC_ENABLE_AP_UPDATE();            /* Enable APROM update. */
+    SYS_UnlockReg();        /* Unlock register lock protect */
+    FMC_Open();             /* Enable FMC ISP function */
+    FMC_ENABLE_AP_UPDATE(); /* Enable APROM update. */
 }
 
 void APROM_update_disable(void)
 {
-    FMC_DISABLE_AP_UPDATE();           /* Disable APROM update. */
-    FMC_Close();                       /* Disable FMC ISP function */
-    SYS_LockReg();                     /* Lock protected registers */
+    FMC_DISABLE_AP_UPDATE(); /* Disable APROM update. */
+    FMC_Close();             /* Disable FMC ISP function */
+    SYS_LockReg();           /* Lock protected registers */
 }

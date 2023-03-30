@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-// TODO: 
+// TODO:
 /**
  * @brief communication channel initialization.
  */
@@ -35,4 +35,4 @@ void com_channel_putc(uint8_t data);
  */
 uint8_t com_channel_getc(void);
 
-#endif  /* COMMUCH_H */
+#endif /* COMMUCH_H */

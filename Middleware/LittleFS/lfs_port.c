@@ -2,8 +2,8 @@
  * @file lfs_port.c
  * @author cy023
  * @date 2023.02.18
- * @brief 
- * 
+ * @brief
+ *
  */
 
 #include "lfs.h"
@@ -11,7 +11,8 @@
 
 /**
  * @brief   lfs porting Layer - "read" API.
- *          Read a region in a block. Negative error codes are propagated to the user.
+ *          Read a region in a block. Negative error codes are propagated to the
+ * user.
  * @param  c        Configuration structure
  * @param  block    Block number
  * @param  off      Offset in the block
@@ -19,9 +20,13 @@
  * @param  size     Read bytes
  * @return
  */
-static int lfs_deskio_read(const struct lfs_config *c, lfs_block_t block, lfs_off_t off, void *buffer, lfs_size_t size)
+static int lfs_deskio_read(const struct lfs_config *c,
+                           lfs_block_t block,
+                           lfs_off_t off,
+                           void *buffer,
+                           lfs_size_t size)
 {
-    w25q128jv_read_sector((uint8_t *)buffer, block, off, size);
+    w25q128jv_read_sector((uint8_t *) buffer, block, off, size);
     return LFS_ERR_OK;
 }
 
@@ -37,9 +42,13 @@ static int lfs_deskio_read(const struct lfs_config *c, lfs_block_t block, lfs_of
  * @param  size     Write bytes
  * @return
  */
-static int lfs_deskio_prog(const struct lfs_config *c, lfs_block_t block, lfs_off_t off, const void *buffer, lfs_size_t size)
+static int lfs_deskio_prog(const struct lfs_config *c,
+                           lfs_block_t block,
+                           lfs_off_t off,
+                           const void *buffer,
+                           lfs_size_t size)
 {
-    w25q128jv_write_sector((uint8_t *)buffer, block, off, size);
+    w25q128jv_write_sector((uint8_t *) buffer, block, off, size);
     return LFS_ERR_OK;
 }
 
@@ -50,7 +59,7 @@ static int lfs_deskio_prog(const struct lfs_config *c, lfs_block_t block, lfs_of
  *          are propagated to the user.
  *          May return LFS_ERR_CORRUPT if the block should be considered bad.
  * @param  c        Configuration structure
- * @param  block    Block number   
+ * @param  block    Block number
  * @return
  */
 static int lfs_deskio_erase(const struct lfs_config *c, lfs_block_t block)
@@ -64,7 +73,7 @@ static int lfs_deskio_erase(const struct lfs_config *c, lfs_block_t block)
  *          Sync the state of the underlying block device. Negative error codes
  *          are propagated to the user.
  * @param  c        Configuration structure
- * @return int 
+ * @return int
  */
 static int lfs_deskio_sync(const struct lfs_config *c)
 {
@@ -81,16 +90,16 @@ lfs_file_t lfs_file_w25q128jv;
 
 const struct lfs_config cfg = {
     // block device operations
-    .read  = lfs_deskio_read,
-    .prog  = lfs_deskio_prog,
+    .read = lfs_deskio_read,
+    .prog = lfs_deskio_prog,
     .erase = lfs_deskio_erase,
-    .sync  = lfs_deskio_sync,
+    .sync = lfs_deskio_sync,
 
     // block device configuration
     .read_size = 16,
     .prog_size = 16,
-    .block_size = 4096,     // flash sector
-    .block_count = 4096,    // flash sector count
+    .block_size = 4096,   // flash sector
+    .block_count = 4096,  // flash sector count
     .cache_size = 16,
     .lookahead_size = 16,
     .block_cycles = 500,
