@@ -2,7 +2,10 @@
 
 A serial and secure programming tool for SAME54 series microcontroller.
 
-## System Overview
+## Boot Scheme
+
+![](./Img/boot_scheme.png)
+
 
 ## Software Satck
 
