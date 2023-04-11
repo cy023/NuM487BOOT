@@ -4,8 +4,11 @@ A serial and secure programming tool for SAME54 series microcontroller.
 
 ## Boot Scheme
 
-![](./Img/boot_scheme.png)
+![boot_scheme](./Img/boot_scheme.png)
 
+## Boot Process
+
+![boot_process](./Img/boot_process.png)
 
 ## Software Satck
 
@@ -16,6 +19,8 @@ A serial and secure programming tool for SAME54 series microcontroller.
 ## Communication command
 
 ## Flowchart
+
+![flowchart](./Img/flowchart.png)
 
 ## Bootloader packet format
 
