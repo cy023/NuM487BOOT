@@ -20,7 +20,7 @@
  *
  * HEADER   : 0xA5A5A5
  * COMMAND  : See details in the following macros
- * LENGTH   : Dara length
+ * LENGTH   : Data length
  * DATA     : Variable length
  * CHECKSUM : sum(data) % 255
  *
