@@ -1,6 +1,6 @@
 # NuM487BOOT
 
-A serial and secure programming tool for SAME54 series microcontroller.
+A serial and secure programming tool for Nuvoton M480 series microcontroller.
 
 ## Boot Scheme
 
@@ -15,10 +15,10 @@ A serial and secure programming tool for SAME54 series microcontroller.
 ## Memory Layout
 
 ## Communication handshake
-### Promgram the firmware image to the internal flash in MCU.
+### Program the firmware image to the internal flash in MCU.
 ![prog_int_flash](./Img/communication_handshake_prog_internal_flash.png)
 
-### Promgram the firmware image to the external SPI NOR flash manage by LittleFS.
+### Program the firmware image to the external SPI NOR flash manage by LittleFS.
 ![prog_ext_flash](./Img/communication_handshake_prog_external_flash.png)
 
 ## Communication command
