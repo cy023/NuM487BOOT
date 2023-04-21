@@ -45,6 +45,8 @@ C_INCLUDES += -IDrivers/w25q128jv
 C_INCLUDES += -IDrivers/Library/Device/Nuvoton_M480/Include
 C_INCLUDES += -IDrivers/Library/StdDriver/inc
 C_INCLUDES += -IMiddleware/LittleFS
+C_INCLUDES += -IMiddleware/mbedtls/include
+C_INCLUDES += -IMiddleware/mbedtls/library
 
 ## Source Path
 C_SOURCES += $(wildcard Core/boot/*.c)
@@ -61,6 +63,7 @@ C_SOURCES += Drivers/Library/StdDriver/src/spi.c
 C_SOURCES += $(wildcard Drivers/boot/*.c)
 C_SOURCES += $(wildcard Drivers/w25q128jv/*.c)
 C_SOURCES += $(wildcard Middleware/LittleFS/*.c)
+C_SOURCES += $(wildcard Middleware/mbedtls/library/*.c)
 
 ASM_SOURCES += $(wildcard Device_Startup/*.S)
 
@@ -167,6 +170,9 @@ clean:
 # download:
 # 	NuLink -e all
 # 	NuLink 0x180006EE -w APROM build/$(UPLOAD_HEX).hex
+
+upload:
+	serprog prog -p $(COMPORT) -f build/$(UPLOAD_HEX).hex
 
 terminal:
 	putty -serial $(COMPORT) -sercfg 38400,1,N,N
