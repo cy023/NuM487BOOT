@@ -60,6 +60,7 @@ C_SOURCES += Drivers/Library/StdDriver/src/retarget.c
 C_SOURCES += Drivers/Library/StdDriver/src/clk.c
 C_SOURCES += Drivers/Library/StdDriver/src/fmc.c
 C_SOURCES += Drivers/Library/StdDriver/src/spi.c
+C_SOURCES += Drivers/Library/StdDriver/src/crypto.c
 C_SOURCES += $(wildcard Drivers/boot/*.c)
 C_SOURCES += $(wildcard Drivers/w25q128jv/*.c)
 C_SOURCES += $(wildcard Middleware/LittleFS/*.c)

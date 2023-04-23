@@ -26,6 +26,9 @@ static void system_clock_init(void)
     /* Wait for HXT clock ready */
     CLK_WaitClockReady(CLK_STATUS_HXTSTB_Msk);
 
+    /* Switch HCLK clock source to HXT */
+    CLK_SetHCLK(CLK_CLKSEL0_HCLKSEL_HXT, CLK_CLKDIV0_HCLK(1));
+
     /* Set core clock as PLL_CLOCK from PLL */
     CLK_SetCoreClock(PLL_CLOCK);
 
@@ -44,6 +47,9 @@ static void system_clock_init(void)
 
     /* Select PCLK1 as the clock source of SPI2 */
     CLK_SetModuleClock(SPI2_MODULE, CLK_CLKSEL2_SPI2SEL_PCLK1, MODULE_NoMsk);
+
+    /* Enable CRYPTO module clock */
+    CLK_EnableModuleClock(CRPT_MODULE);
 
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate SystemCoreClock and
