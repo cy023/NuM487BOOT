@@ -39,7 +39,7 @@ uint16_t flash_get_pgsz(void)
 uint8_t flash_write_app_page(const uint32_t dest, uint8_t *buf)
 {
     // TODO: FMC_WriteMultiple(0x00020000UL, (uint32_t *)page_buffer, BUFFSIZE);
-    for (uint32_t addr = (USER_APP_START + dest), i = 0; i < BL_FLASH_PACSIZE;
+    for (uint32_t addr = dest, i = 0; i < BL_FLASH_PACSIZE;
          addr += 4, i += 4) {
         uint32_t tmp = buf[i];
         tmp |= buf[i + 1] << 8;
@@ -53,7 +53,7 @@ uint8_t flash_write_app_page(const uint32_t dest, uint8_t *buf)
 
 uint8_t flash_read_app_page(const uint32_t src, uint8_t *buf)
 {
-    for (uint32_t addr = (USER_APP_START + src), i = 0; i < BL_FLASH_PACSIZE;
+    for (uint32_t addr = src, i = 0; i < BL_FLASH_PACSIZE;
          addr += 4, i += 4) {
         uint32_t res = FMC_Read(addr);
         buf[i + 0] = res & 0xFF;
@@ -69,7 +69,7 @@ uint8_t flash_read_app_page(const uint32_t src, uint8_t *buf)
 uint8_t flash_verify_app_page(const uint32_t src, uint8_t *buf)
 {
     uint32_t *pbuf32 = (uint32_t *) buf;
-    for (uint32_t addr = (USER_APP_START + src), i = 0; i < BL_FLASH_PACSIZE;
+    for (uint32_t addr = src, i = 0; i < BL_FLASH_PACSIZE;
          addr += 4, i += 4) {
         uint32_t res = FMC_Read(addr);
         if (res != pbuf32[i / 4] || g_FMC_i32ErrCode != 0)
