@@ -58,20 +58,20 @@ uint8_t flash_read_app_page(const uint32_t src, uint8_t *buf);
 uint8_t flash_verify_app_page(const uint32_t src, uint8_t *buf);
 
 /**
- * @brief Earse the assigned flash section.
+ * @brief Erase the assigned flash section.
  * @param sector_num the num of flash section to clear.
  * @return uint8_t
  *      0: successed.
  *      1: failed.
  */
-// uint8_t flash_earse_sector(uint8_t sector_num);
+// uint8_t flash_erase_sector(uint8_t sector_num);
 
 /**
- * @brief Earse all space of user app flash.
+ * @brief Erase all space of user app flash.
  * @return uint8_t
  *      0: successed.
  *      1: failed.
  */
-uint8_t flash_earse_app_all(void);
+uint8_t flash_erase_app_all(void);
 
 #endif /* FLASH_H */

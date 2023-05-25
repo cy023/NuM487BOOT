@@ -36,8 +36,8 @@ A serial and secure programming tool for Nuvoton M480 series microcontroller.
 #define CMD_FLASH_WRITE             0x12
 #define CMD_FLASH_READ              0x13
 #define CMD_FLASH_VERIFY            0x14
-#define CMD_FLASH_EARSE_SECTOR      0x15
-#define CMD_FLASH_EARSE_ALL         0x16
+#define CMD_FLASH_ERASE_SECTOR      0x15
+#define CMD_FLASH_ERASE_ALL         0x16
 
 // The EEPROM associated commands
 #define CMD_EEPROM_SET_PGSZ         0x20
@@ -45,8 +45,8 @@ A serial and secure programming tool for Nuvoton M480 series microcontroller.
 #define CMD_EEPROM_WRITE            0x22
 #define CMD_EEPROM_READ             0x23
 #define CMD_EEPROM_VERIFY           0x24
-#define CMD_EEPROM_EARSE_SECTOR     0x25
-#define CMD_EEPROM_EARSE_ALL        0x26
+#define CMD_EEPROM_ERASE_SECTOR     0x25
+#define CMD_EEPROM_ERASE_ALL        0x26
 
 // The external flash (SPI NOR flash) associated commands
 #define CMD_EXT_FLASH_FOPEN         0x30
@@ -54,7 +54,7 @@ A serial and secure programming tool for Nuvoton M480 series microcontroller.
 #define CMD_EXT_FLASH_WRITE         0x32
 #define CMD_EXT_FLASH_READ          0x33
 #define CMD_EXT_FLASH_VERIFY        0x34
-#define CMD_EXT_FLASH_EARSE_SECTOR  0x35
+#define CMD_EXT_FLASH_ERASE_SECTOR  0x35
 #define CMD_EXT_FLASH_HEX_DEL       0x36
 ```
 

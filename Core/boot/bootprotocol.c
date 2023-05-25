@@ -177,12 +177,12 @@ void bl_command_process(void)
             send_NACK(&pac);
             break;
         }
-        case CMD_FLASH_EARSE_SECTOR: {  // TODO:
+        case CMD_FLASH_ERASE_SECTOR: {  // TODO:
             send_NACK(&pac);
             break;
         }
-        case CMD_FLASH_EARSE_ALL: {
-            if (flash_earse_app_all())
+        case CMD_FLASH_ERASE_ALL: {
+            if (flash_erase_app_all())
                 send_NACK(&pac);
             else
                 send_ACK(&pac);
@@ -234,7 +234,7 @@ void bl_command_process(void)
         case CMD_EXT_FLASH_VERIFY: {
             break;
         }
-        case CMD_EXT_FLASH_EARSE_SECTOR: {
+        case CMD_EXT_FLASH_ERASE_SECTOR: {
             break;
         }
         case CMD_EXT_FLASH_HEX_DEL: {
@@ -255,7 +255,7 @@ void bl_command_process(void)
         case CMD_EEPROM_READ: {
             break;
         }
-        case CMD_EEPROM_EARSE_ALL: {
+        case CMD_EEPROM_ERASE_ALL: {
             break;
         }
 
@@ -274,7 +274,7 @@ uint8_t boot_from_fs(void)
     bootLED_on();
     APROM_update_enable();
 
-    if (flash_earse_app_all())
+    if (flash_erase_app_all())
         return FAILED;
     memset(bl_buffer, 0, BUFFERSIZE);
 

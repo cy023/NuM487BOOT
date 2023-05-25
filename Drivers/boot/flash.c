@@ -78,7 +78,7 @@ uint8_t flash_verify_app_page(const uint32_t src, uint8_t *buf)
     return SUCCESSED;
 }
 
-// uint8_t flash_earse_sector(uint8_t sector_num)
+// uint8_t flash_erase_sector(uint8_t sector_num)
 // {
 //     // TODO:
 //     // uint32_t addr = sector_num * NVMCTRL_FLASH_BLOCKSIZE;
@@ -87,7 +87,7 @@ uint8_t flash_verify_app_page(const uint32_t src, uint8_t *buf)
 //     return 0;
 // }
 
-uint8_t flash_earse_app_all(void)
+uint8_t flash_erase_app_all(void)
 {
     uint8_t res = 0;
     for (uint32_t addr = USER_APP_START; addr < USER_APP_END;
