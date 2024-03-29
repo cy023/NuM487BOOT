@@ -155,7 +155,8 @@ void bl_command_process(void)
             break;
         }
         case CMD_FLASH_WRITE: {
-            if (flash_write_app_page(*(uint32_t *) pac.data,
+            if ((*(uint32_t *) pac.data <= BOOTLOADER_END) ||
+                flash_write_app_page(*(uint32_t *) pac.data,
                                      (uint8_t *) (pac.data + 4)))
                 send_NACK(&pac);
             else
